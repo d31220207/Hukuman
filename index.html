@@ -36,7 +36,8 @@
       font-family: 'Montserrat', sans-serif;
       font-size: 24px;
       font-weight: normal;
-      margin-bottom: 4px; /* Reduced from 16px to 8px */
+      margin-bottom: 4px;
+      /* Reduced from 16px to 8px */
       text-align: center;
       color: #333;
     }
@@ -125,7 +126,8 @@
       display: flex;
       justify-content: center;
       gap: 8px;
-      margin-bottom: 16px; /* This creates the gap between inputs and buttons */
+      margin-bottom: 16px;
+      /* This creates the gap between inputs and buttons */
     }
 
     .input-group {
@@ -137,8 +139,10 @@
       padding: 8px;
       border: 1px solid #ccc;
       border-radius: 4px;
-      width: 100px; /* Slightly increased for better appearance */
-      margin-right: 8px; /* Small gap between input and its button */
+      width: 100px;
+      /* Slightly increased for better appearance */
+      margin-right: 8px;
+      /* Small gap between input and its button */
     }
 
     .button-row {
@@ -157,7 +161,8 @@
       justify-content: center;
       gap: 16px;
       padding: 10px 0;
-      margin-bottom: 8px; /* Added margin to create gap between controls and table */
+      margin-bottom: 8px;
+      /* Added margin to create gap between controls and table */
     }
 
     .switch-container {
@@ -264,13 +269,13 @@
         <button class="button" id="addPunishment">+</button>
       </div>
     </div>
-    
+
     <div class="button-row">
       <button class="button button-outline" id="importData">Import</button>
       <button class="button button-outline" id="exportData">Export</button>
       <button class="button button-red-outline" id="resetData">Reset</button>
     </div>
-    
+
     <input type="file" id="fileInput" style="display: none;" accept=".json">
   </div>
   <script>
@@ -332,6 +337,9 @@
           ${punishments.map(p => `<td class="punishment-column"><button class="button button-outline ${s[p] > 0 ? 'button-red' : 'button-no-color'}" data-field="${p}">${s[p]}</button></td>`).join('')}
         </tr>
       `).join('');
+
+      // Terapkan status kunci setelah render tabel
+      applyLockState();
     }
 
     function toggleLock() {
@@ -425,7 +433,7 @@
     });
 
     tableBody.addEventListener('click', (e) => {
-      if (e.target.tagName === 'BUTTON') {
+      if (e.target.tagName === 'BUTTON' && !isLocked) {
         const button = e.target;
         const field = button.dataset.field;
         const row = button.closest('tr');
@@ -441,6 +449,12 @@
         }
       }
     });
+
+    // Tambahkan fungsi ini untuk menerapkan status kunci saat render tabel
+    function applyLockState() {
+      updateLockButton();
+      updateEditableState();
+    }
 
     lockButton.addEventListener('click', toggleLock);
 
