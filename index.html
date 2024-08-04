@@ -8,6 +8,8 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Montserrat:wght@400;600&display=swap"
     rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <style>
     body {
       font-family: 'Open Sans', sans-serif;
@@ -19,14 +21,15 @@
     .container {
       padding: 16px;
       max-width: 800px;
-      margin: 0 auto;
+      margin: 20px auto;
+      /* Added margin */
       background-color: transparent;
       border-radius: 8px;
     }
 
     @media (max-width: 600px) {
       .container {
-        padding: 16px 16px 16px 16px; /* Added right padding */
+        padding: 16px;
       }
     }
 
@@ -47,7 +50,7 @@
 
     th,
     td {
-      padding: 8px 8px; /* Mengurangi padding horizontal */
+      padding: 8px 8px;
       text-align: left;
       font-size: 14px;
       border: 1px solid #ddd;
@@ -59,7 +62,7 @@
       font-weight: bold;
       font-size: 14px;
       text-align: center;
-      padding: 8px 8px; /* Mengurangi padding horizontal */
+      padding: 8px 8px;
     }
 
     .no-column {
@@ -126,48 +129,21 @@
       width: 100px;
     }
 
-    .text-center {
+    .punishment-column {
       text-align: center;
     }
 
-    .text-sm {
-      font-size: 14px;
-    }
-
-    .text-gray-600 {
-      color: #606060;
-    }
-
-    .mt-4 {
-      margin-top: 16px;
-    }
-
-    .mb-4 {
-      margin-bottom: 16px;
-    }
-
-    .flex {
+    .controls-container {
       display: flex;
-    }
-
-    .items-center {
       align-items: center;
-    }
-
-    .justify-center {
       justify-content: center;
+      gap: 8px;
+      padding: 10px 0;
     }
 
-    .justify-between {
-      justify-content: space-between;
-    }
-
-    .space-x-2>*+* {
-      margin-left: 8px;
-    }
-
-    .w-40 {
-      width: 160px;
+    .switch-container {
+      display: flex;
+      align-items: center;
     }
 
     .switch {
@@ -175,8 +151,7 @@
       display: inline-block;
       width: 54px;
       height: 28px;
-      margin-bottom: 16px;
-      /* Added margin-bottom */
+      margin: 0;
     }
 
     .switch input {
@@ -217,12 +192,20 @@
       transform: translateX(26px);
     }
 
-    .hidden {
-      display: none;
+    .lock-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 28px;
     }
 
-    .punishment-column {
-      text-align: center;
+    .material-symbols-outlined {
+      font-size: 24px;
+      line-height: 1;
     }
   </style>
 </head>
@@ -230,11 +213,16 @@
 <body>
   <div class="container">
     <h1>Tracker Hukuman Santri</h1>
-    <div class="mt-4 mb-4 flex items-center justify-center space-x-2">
-      <label class="switch">
-        <input type="checkbox" id="modeSwitch">
-        <span class="slider"></span>
-      </label>
+    <div class="controls-container">
+      <div class="switch-container">
+        <label class="switch">
+          <input type="checkbox" id="modeSwitch">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <button id="lockButton" class="lock-button">
+        <span class="material-symbols-outlined">lock_open</span>
+      </button>
     </div>
     <table id="hukumanTable">
       <thead>
@@ -258,7 +246,7 @@
       </div>
     </div>
     <div class="mt-4 button-container">
-      <input type="file" id="fileInput" class="hidden" accept=".json">
+      <input type="file" id="fileInput" style="display: none;" accept=".json">
       <button class="button button-outline" id="importData">Import</button>
       <button class="button button-outline" id="exportData">Export</button>
       <button class="button button-red-outline" id="resetData">Reset</button>
@@ -266,8 +254,10 @@
   </div>
   <script>
     let mode = 'tambah';
+    let isLocked = false;
     const tableBody = document.getElementById('siswaTableBody');
     const modeSwitch = document.getElementById('modeSwitch');
+    const lockButton = document.getElementById('lockButton');
     const addSiswaButton = document.getElementById('addSiswa');
     const newSiswaInput = document.getElementById('newSiswa');
     const resetDataButton = document.getElementById('resetData');
@@ -288,15 +278,32 @@
       return savedData ? JSON.parse(savedData) : initialData;
     }
 
+    function saveControlsState() {
+      localStorage.setItem('controlsState', JSON.stringify({
+        mode: mode,
+        isLocked: isLocked
+      }));
+    }
+
+    function loadControlsState() {
+      const savedState = localStorage.getItem('controlsState');
+      if (savedState) {
+        const state = JSON.parse(savedState);
+        mode = state.mode;
+        isLocked = state.isLocked;
+        modeSwitch.checked = mode === 'kurang';
+        updateLockButton();
+        updateEditableState();
+      }
+    }
+
     function renderTable() {
       const siswa = loadData();
       const punishments = siswa.length > 0 ? Object.keys(siswa[0]).filter(key => key !== 'nama') : [];
 
-      // Update table header
       const headerRow = document.querySelector('#hukumanTable thead tr');
       headerRow.innerHTML = '<th class="no-column">No.</th><th>Nama</th>' + punishments.map(p => `<th>${p}</th>`).join('');
 
-      // Update table body
       tableBody.innerHTML = siswa.map((s, index) => `
         <tr data-nama="${s.nama}">
           <td class="no-column">${index + 1}</td>
@@ -304,6 +311,33 @@
           ${punishments.map(p => `<td class="punishment-column"><button class="button button-outline ${s[p] > 0 ? 'button-red' : 'button-no-color'}" data-field="${p}">${s[p]}</button></td>`).join('')}
         </tr>
       `).join('');
+    }
+
+    function toggleLock() {
+      isLocked = !isLocked;
+      updateLockButton();
+      updateEditableState();
+      saveControlsState();
+    }
+
+    function updateLockButton() {
+      const lockIcon = lockButton.querySelector('.material-symbols-outlined');
+      lockIcon.textContent = isLocked ? 'lock' : 'lock_open';
+    }
+
+    function updateEditableState() {
+      const buttons = document.querySelectorAll('#hukumanTable button');
+      buttons.forEach(button => {
+        button.disabled = isLocked;
+      });
+      addSiswaButton.disabled = isLocked;
+      newSiswaInput.disabled = isLocked;
+      addPunishmentButton.disabled = isLocked;
+      newPunishmentInput.disabled = isLocked;
+      resetDataButton.disabled = isLocked;
+      importDataButton.disabled = isLocked;
+      exportDataButton.disabled = isLocked;
+      modeSwitch.disabled = isLocked;
     }
 
     function updateButtonColor(button, value) {
@@ -352,6 +386,7 @@
 
     modeSwitch.addEventListener('change', () => {
       mode = modeSwitch.checked ? 'kurang' : 'tambah';
+      saveControlsState();
     });
 
     addSiswaButton.addEventListener('click', addSiswa);
@@ -385,6 +420,8 @@
         }
       }
     });
+
+    lockButton.addEventListener('click', toggleLock);
 
     importDataButton.addEventListener('click', () => {
       fileInput.click();
@@ -423,8 +460,12 @@
 
     resetDataButton.addEventListener('click', resetData);
 
-    // Render table on initial load
+    // Load saved state and render table on initial load
+    loadControlsState();
     renderTable();
+
+    // Save controls state when window is closed or refreshed
+    window.addEventListener('beforeunload', saveControlsState);
   </script>
 </body>
 
