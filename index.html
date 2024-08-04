@@ -121,11 +121,30 @@
       color: #333;
     }
 
+    .input-section {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 16px; /* This creates the gap between inputs and buttons */
+    }
+
+    .input-group {
+      display: flex;
+      align-items: center;
+    }
+
     .input {
       padding: 8px;
       border: 1px solid #ccc;
       border-radius: 4px;
-      width: 100px;
+      width: 100px; /* Slightly increased for better appearance */
+      margin-right: 8px; /* Small gap between input and its button */
+    }
+
+    .button-row {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
     }
 
     .punishment-column {
@@ -235,22 +254,24 @@
         <!-- Data siswa akan dimuat di sini -->
       </tbody>
     </table>
-    <div class="mt-4 button-container">
-      <div>
+    <div class="input-section">
+      <div class="input-group">
         <input type="text" id="newSiswa" placeholder="Nama Baru" class="input">
         <button class="button" id="addSiswa">+</button>
       </div>
-      <div>
+      <div class="input-group">
         <input type="text" id="newPunishment" placeholder="Hukuman Baru" class="input">
         <button class="button" id="addPunishment">+</button>
       </div>
     </div>
-    <div class="mt-4 button-container">
-      <input type="file" id="fileInput" style="display: none;" accept=".json">
+    
+    <div class="button-row">
       <button class="button button-outline" id="importData">Import</button>
       <button class="button button-outline" id="exportData">Export</button>
       <button class="button button-red-outline" id="resetData">Reset</button>
     </div>
+    
+    <input type="file" id="fileInput" style="display: none;" accept=".json">
   </div>
   <script>
     let mode = 'tambah';
