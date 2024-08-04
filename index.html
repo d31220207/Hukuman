@@ -1,107 +1,431 @@
-[
-  {
-    "nama": "Fafa",
-    "Piket": 0,
-    "Pimpin Wirid": 0,
-    "Menulis": 0,
-    "Hafalan Doa": 0
-  },
-  {
-    "nama": "Fadli",
-    "Piket": 0,
-    "Pimpin Wirid": 0,
-    "Menulis": 0,
-    "Hafalan Doa": 0
-  },
-  {
-    "nama": "Raka",
-    "Piket": 0,
-    "Pimpin Wirid": 0,
-    "Menulis": 0,
-    "Hafalan Doa": 0
-  },
-  {
-    "nama": "Ahsan",
-    "Piket": 0,
-    "Pimpin Wirid": 0,
-    "Menulis": 0,
-    "Hafalan Doa": 0
-  },
-  {
-    "nama": "Khalid",
-    "Piket": 0,
-    "Pimpin Wirid": 0,
-    "Menulis": 0,
-    "Hafalan Doa": 0
-  },
-  {
-    "nama": "Luthfi",
-    "Piket": 0,
-    "Pimpin Wirid": 0,
-    "Menulis": 0,
-    "Hafalan Doa": 0
-  },
-  {
-    "nama": "Karel",
-    "Piket": 0,
-    "Pimpin Wirid": 0,
-    "Menulis": 0,
-    "Hafalan Doa": 0
-  },
-  {
-    "nama": "Rizal",
-    "Piket": 0,
-    "Pimpin Wirid": 0,
-    "Menulis": 0,
-    "Hafalan Doa": 0
-  },
-  {
-    "nama": "Adit",
-    "Piket": 0,
-    "Pimpin Wirid": 0,
-    "Menulis": 0,
-    "Hafalan Doa": 0
-  },
-  {
-    "nama": "Alzam",
-    "Piket": 0,
-    "Pimpin Wirid": 0,
-    "Menulis": 0,
-    "Hafalan Doa": 0
-  },
-  {
-    "nama": "Eril",
-    "Piket": 0,
-    "Pimpin Wirid": 0,
-    "Menulis": 0,
-    "Hafalan Doa": 0
-  },
-  {
-    "nama": "Handika",
-    "Piket": 0,
-    "Pimpin Wirid": 0,
-    "Menulis": 0,
-    "Hafalan Doa": 0
-  },
-  {
-    "nama": "Khevin",
-    "Piket": 0,
-    "Pimpin Wirid": 0,
-    "Menulis": 0,
-    "Hafalan Doa": 0
-  },
-  {
-    "nama": "Alfin",
-    "Piket": 0,
-    "Pimpin Wirid": 0,
-    "Menulis": 0,
-    "Hafalan Doa": 0
-  },
-  {
-    "nama": "Rifky",
-    "Piket": 0,
-    "Pimpin Wirid": 0,
-    "Menulis": 0,
-    "Hafalan Doa": 0
-  }
-]
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tracker Hukuman Santri</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Montserrat:wght@400;600&display=swap"
+    rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background-color: #f7f7f7;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      padding: 16px;
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: transparent;
+      border-radius: 8px;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 16px 16px 16px 16px; /* Added right padding */
+      }
+    }
+
+    h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 24px;
+      font-weight: normal;
+      margin-bottom: 16px;
+      text-align: center;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 16px;
+    }
+
+    th,
+    td {
+      padding: 8px 8px; /* Mengurangi padding horizontal */
+      text-align: left;
+      font-size: 14px;
+      border: 1px solid #ddd;
+      background-color: white;
+    }
+
+    th {
+      background-color: white;
+      font-weight: bold;
+      font-size: 14px;
+      text-align: center;
+      padding: 8px 8px; /* Mengurangi padding horizontal */
+    }
+
+    .no-column {
+      width: 50px;
+      text-align: center;
+    }
+
+    .button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .button-container>div {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .button-outline {
+      background-color: transparent;
+      border: 1px solid #007bff;
+      color: #007bff;
+    }
+
+    .button-red-outline {
+      background-color: transparent;
+      border: 1px solid #f44336;
+      color: #f44336;
+    }
+
+    .button-red {
+      background-color: #ffdddd;
+      color: #f44336;
+      border: 1px solid #f44336;
+    }
+
+    .button-no-color {
+      background-color: transparent;
+      border: 1px solid #ddd;
+      color: #333;
+    }
+
+    .input {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 100px;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .text-sm {
+      font-size: 14px;
+    }
+
+    .text-gray-600 {
+      color: #606060;
+    }
+
+    .mt-4 {
+      margin-top: 16px;
+    }
+
+    .mb-4 {
+      margin-bottom: 16px;
+    }
+
+    .flex {
+      display: flex;
+    }
+
+    .items-center {
+      align-items: center;
+    }
+
+    .justify-center {
+      justify-content: center;
+    }
+
+    .justify-between {
+      justify-content: space-between;
+    }
+
+    .space-x-2>*+* {
+      margin-left: 8px;
+    }
+
+    .w-40 {
+      width: 160px;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 54px;
+      height: 28px;
+      margin-bottom: 16px;
+      /* Added margin-bottom */
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #007bff;
+      transition: .4s;
+      border-radius: 28px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+    }
+
+    input:checked+.slider {
+      background-color: #f44336;
+    }
+
+    input:checked+.slider:before {
+      transform: translateX(26px);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .punishment-column {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Tracker Hukuman Santri</h1>
+    <div class="mt-4 mb-4 flex items-center justify-center space-x-2">
+      <label class="switch">
+        <input type="checkbox" id="modeSwitch">
+        <span class="slider"></span>
+      </label>
+    </div>
+    <table id="hukumanTable">
+      <thead>
+        <tr>
+          <th class="no-column">No.</th>
+          <th>Nama</th>
+        </tr>
+      </thead>
+      <tbody id="siswaTableBody">
+        <!-- Data siswa akan dimuat di sini -->
+      </tbody>
+    </table>
+    <div class="mt-4 button-container">
+      <div>
+        <input type="text" id="newSiswa" placeholder="Nama Baru" class="input">
+        <button class="button" id="addSiswa">+</button>
+      </div>
+      <div>
+        <input type="text" id="newPunishment" placeholder="Hukuman Baru" class="input">
+        <button class="button" id="addPunishment">+</button>
+      </div>
+    </div>
+    <div class="mt-4 button-container">
+      <input type="file" id="fileInput" class="hidden" accept=".json">
+      <button class="button button-outline" id="importData">Import</button>
+      <button class="button button-outline" id="exportData">Export</button>
+      <button class="button button-red-outline" id="resetData">Reset</button>
+    </div>
+  </div>
+  <script>
+    let mode = 'tambah';
+    const tableBody = document.getElementById('siswaTableBody');
+    const modeSwitch = document.getElementById('modeSwitch');
+    const addSiswaButton = document.getElementById('addSiswa');
+    const newSiswaInput = document.getElementById('newSiswa');
+    const resetDataButton = document.getElementById('resetData');
+    const addPunishmentButton = document.getElementById('addPunishment');
+    const newPunishmentInput = document.getElementById('newPunishment');
+    const fileInput = document.getElementById('fileInput');
+    const importDataButton = document.getElementById('importData');
+    const exportDataButton = document.getElementById('exportData');
+
+    const initialData = [];
+
+    function saveData(data) {
+      localStorage.setItem('siswaData', JSON.stringify(data));
+    }
+
+    function loadData() {
+      const savedData = localStorage.getItem('siswaData');
+      return savedData ? JSON.parse(savedData) : initialData;
+    }
+
+    function renderTable() {
+      const siswa = loadData();
+      const punishments = siswa.length > 0 ? Object.keys(siswa[0]).filter(key => key !== 'nama') : [];
+
+      // Update table header
+      const headerRow = document.querySelector('#hukumanTable thead tr');
+      headerRow.innerHTML = '<th class="no-column">No.</th><th>Nama</th>' + punishments.map(p => `<th>${p}</th>`).join('');
+
+      // Update table body
+      tableBody.innerHTML = siswa.map((s, index) => `
+        <tr data-nama="${s.nama}">
+          <td class="no-column">${index + 1}</td>
+          <td>${s.nama}</td>
+          ${punishments.map(p => `<td class="punishment-column"><button class="button button-outline ${s[p] > 0 ? 'button-red' : 'button-no-color'}" data-field="${p}">${s[p]}</button></td>`).join('')}
+        </tr>
+      `).join('');
+    }
+
+    function updateButtonColor(button, value) {
+      button.classList.toggle('button-red', value > 0);
+      button.classList.toggle('button-no-color', value === 0);
+    }
+
+    function addSiswa() {
+      const newSiswa = newSiswaInput.value.trim();
+      if (newSiswa) {
+        const siswa = loadData();
+        const newSiswaObj = { nama: newSiswa };
+        if (siswa.length > 0) {
+          Object.keys(siswa[0]).forEach(key => {
+            if (key !== 'nama') {
+              newSiswaObj[key] = 0;
+            }
+          });
+        }
+        siswa.push(newSiswaObj);
+        saveData(siswa);
+        renderTable();
+        newSiswaInput.value = '';
+      }
+    }
+
+    function addPunishment() {
+      const newPunishment = newPunishmentInput.value.trim();
+      if (newPunishment) {
+        const siswa = loadData();
+        siswa.forEach(s => {
+          s[newPunishment] = 0;
+        });
+        saveData(siswa);
+        renderTable();
+        newPunishmentInput.value = '';
+      }
+    }
+
+    function resetData() {
+      if (confirm('Apakah Anda yakin ingin mereset data?')) {
+        localStorage.removeItem('siswaData');
+        renderTable();
+      }
+    }
+
+    modeSwitch.addEventListener('change', () => {
+      mode = modeSwitch.checked ? 'kurang' : 'tambah';
+    });
+
+    addSiswaButton.addEventListener('click', addSiswa);
+    newSiswaInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        addSiswa();
+      }
+    });
+
+    addPunishmentButton.addEventListener('click', addPunishment);
+    newPunishmentInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        addPunishment();
+      }
+    });
+
+    tableBody.addEventListener('click', (e) => {
+      if (e.target.tagName === 'BUTTON') {
+        const button = e.target;
+        const field = button.dataset.field;
+        const row = button.closest('tr');
+        const nama = row.dataset.nama;
+        const siswa = loadData();
+        const siswaIndex = siswa.findIndex(s => s.nama === nama);
+        if (siswaIndex !== -1) {
+          siswa[siswaIndex][field] += mode === 'tambah' ? 1 : -1;
+          siswa[siswaIndex][field] = Math.max(0, siswa[siswaIndex][field]);
+          saveData(siswa);
+          button.textContent = siswa[siswaIndex][field];
+          updateButtonColor(button, siswa[siswaIndex][field]);
+        }
+      }
+    });
+
+    importDataButton.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const contents = e.target.result;
+          try {
+            const data = JSON.parse(contents);
+            saveData(data);
+            renderTable();
+          } catch (err) {
+            alert('Format file tidak valid');
+          }
+        };
+        reader.readAsText(file);
+      }
+    });
+
+    exportDataButton.addEventListener('click', () => {
+      const data = loadData();
+      const dataStr = JSON.stringify(data, null, 2);
+      const blob = new Blob([dataStr], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = "data_hukuman.json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+
+    resetDataButton.addEventListener('click', resetData);
+
+    // Render table on initial load
+    renderTable();
+  </script>
+</body>
+
+</html>
