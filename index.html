@@ -112,6 +112,11 @@
       border: 1px solid #f44336;
     }
 
+    .button-remover {
+      background-color: #f44336;
+      color: white;
+    }
+
     .button-no-color {
       background-color: transparent;
       border: 1px solid #ddd;
@@ -123,22 +128,21 @@
       justify-content: center;
       gap: 8px;
       margin-bottom: 16px;
-      /* This creates the gap between inputs and buttons */
+      flex-wrap: wrap;
     }
 
     .input-group {
       display: flex;
       align-items: center;
+      gap: 8px;
     }
 
     .input {
       padding: 8px;
       border: 1px solid #ccc;
       border-radius: 4px;
-      width: 100px;
-      /* Slightly increased for better appearance */
+      width: 160px;
       margin-right: 8px;
-      /* Small gap between input and its button */
     }
 
     .button-row {
@@ -259,10 +263,12 @@
       <div class="input-group">
         <input type="text" id="newSiswa" placeholder="Nama Baru" class="input">
         <button class="button" id="addSiswa">+</button>
+        <button class="button button-remover" id="removeSiswa">-</button>
       </div>
       <div class="input-group">
         <input type="text" id="newPunishment" placeholder="Hukuman Baru" class="input">
         <button class="button" id="addPunishment">+</button>
+        <button class="button button-remover" id="removePunishment">-</button>
       </div>
     </div>
 
@@ -350,6 +356,33 @@
       lockIcon.textContent = isLocked ? 'lock' : 'lock_open';
     }
 
+    const removeSiswaButton = document.getElementById('removeSiswa');
+    const removePunishmentButton = document.getElementById('removePunishment');
+
+    function removeSiswa() {
+      const siswa = loadData();
+      if (siswa.length > 0) {
+        siswa.pop();
+        saveData(siswa);
+        renderTable();
+      }
+    }
+
+    function removePunishment() {
+      const siswa = loadData();
+      if (siswa.length > 0) {
+        const punishments = Object.keys(siswa[0]).filter(key => key !== 'nama');
+        if (punishments.length > 0) {
+          const lastPunishment = punishments[punishments.length - 1];
+          siswa.forEach(s => {
+            delete s[lastPunishment];
+          });
+          saveData(siswa);
+          renderTable();
+        }
+      }
+    }
+
     function updateEditableState() {
       const buttons = document.querySelectorAll('#hukumanTable button');
       buttons.forEach(button => {
@@ -363,7 +396,12 @@
       importDataButton.disabled = isLocked;
       exportDataButton.disabled = isLocked;
       modeSwitch.disabled = isLocked;
+      removeSiswaButton.disabled = isLocked;
+      removePunishmentButton.disabled = isLocked;
     }
+
+    removeSiswaButton.addEventListener('click', removeSiswa);
+    removePunishmentButton.addEventListener('click', removePunishment);
 
     function updateButtonColor(button, value) {
       button.classList.toggle('button-red', value > 0);
